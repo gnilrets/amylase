@@ -32,6 +32,15 @@ class JobSpecsController < ApplicationController
     respond_to do |format|
       if @job_spec.save
         flash[:success] = "Success! JobSpec created."
+
+        if JobScheduler.find
+          begin
+            JobScheduler.find.schedule_job_spec(@job_spec) if @job_spec.enabled
+          rescue => err
+            flash[:warn] = "Warning! JobSpec created, but there was a problem adding it to the scheduler: #{err.class.name}: #{err.message}"
+          end
+        end
+
         format.html { redirect_to @job_spec }
         format.json { render :show, status: :created, location: @job_spec }
       else
