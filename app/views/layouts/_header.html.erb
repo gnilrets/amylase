@@ -13,7 +13,7 @@
       </button>
       <%= link_to "Amylase", root_path, class: "navbar-brand", id: "logo" %>
     </div>
-    
+
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav" role="tablist">
@@ -28,14 +28,6 @@
             <li><%= link_to "Job Schedule", new_job_schedule_group_path, id: "new_job_schedule_group" %></li>
             <li><%= link_to "Client", new_client_path, id: "new_client" %></li>
             <li><%= link_to "ExternalCredential", new_external_credential_path, id: "new_external_credential" %></li>
-            <li><%= link_to "Birst Space", new_birst_space_path, id: "new_birst_space" %></li>
-            <li><%= link_to "Gooddata Project", new_gooddata_project_path, id: "new_gooddata_project" %></li>
-            <li><%= link_to "Data Source", new_data_source_path, id: "new_data_source" %></li>
-            <li><%= link_to "Data Source Collection", new_data_source_collection_path, id: "new_data_source_collection" %></li>
-            <li><%= link_to "Birst Process Group", new_birst_process_group_path, id: "new_birst_process_group" %></li>
-            <li><%= link_to "Birst Process Group Collection", new_birst_process_group_collection_path, id: "new_birst_process_group_collection" %></li>
-            <li><%= link_to "Birst Extract Group", new_birst_extract_group_path, id: "new_birst_extract_group" %></li>
-            <li><%= link_to "Birst Extract Group Collection", new_birst_extract_group_collection_path, id: "new_birst_extract_group_collection" %></li>
           </ul>
         </li>
         <li class="dropdown">
@@ -46,25 +38,11 @@
             <li><%= link_to "Job Schedules", job_schedule_groups_path, id: "job_schedule_groups" %></li>
             <li><%= link_to "Clients", clients_path, id: "clients" %></li>
             <li><%= link_to "ExternalCredentials", external_credentials_path, id: "external_credentials" %></li>
-            <li><%= link_to "Birst Spaces", birst_spaces_path, id: "birst_spaces" %></li>
-            <li><%= link_to "Gooddata Projects", gooddata_projects_path, id: "gooddata_projects" %></li>
-            <li><%= link_to "Data Sources", data_sources_path, id: "data_sources" %></li>
-            <li><%= link_to "Data Source Collections", data_source_collections_path, id: "data_source_collections" %></li>
-            <li><%= link_to "Birst Process Groups", birst_process_groups_path, id: "birst_process_groups" %></li>
-            <li><%= link_to "Birst Process Group Collections", birst_process_group_collections_path, id: "birst_process_group_collections" %></li>
-            <li><%= link_to "Birst Extract Groups", birst_extract_groups_path, id: "birst_extract_groups" %></li>
-            <li><%= link_to "Birst Extract Group Collections", birst_extract_group_collections_path, id: "birst_extract_group_collections" %></li>
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <% if JobScheduler.find %>
-              <li><%= link_to "View Scheduler", job_scheduler_path, id: "job_scheduler" %></li>
-              <li><%= link_to "Stop Scheduler", job_scheduler_path, id: "destroy_job_scheduler", method: :delete, data: { confirm: 'Are you sure you want to stop the scheduler?' } %></li>
-            <% else %>
-              <li><%= link_to "Start Scheduler", new_job_scheduler_path, id: "new_job_scheduler" %></li>
-            <% end %>
             <li class="divider"></li>
             <li><a href="#">Placeholder for user admin</a></li>
           </ul>
@@ -72,7 +50,7 @@
       </ul>
     </div><!-- /.navbar-collapse -->
 
-    
+
   </div><!-- /.container-fluid -->
 
 </nav>

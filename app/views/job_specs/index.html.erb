@@ -6,7 +6,6 @@
       <th>Client</th>
       <th>Name</th>
       <th>Enabled</th>
-      <th>Job Template Type</th>
       <th>Job Schedule Group</th>
       <th></th>
     </tr>
@@ -18,7 +17,6 @@
         <td><%= job_spec.client.try(:name) %></td>
         <td><%= job_spec.name %></td>
         <td><%= job_spec.enabled %></td>
-        <td><%= job_spec.job_template_type %></td>
         <td><%= link_to_if(job_spec.job_schedule_group, job_spec.job_schedule_group.try(:name), job_spec.job_schedule_group) %></td>
         <td class="text-right"> <%= render partial: "shared/row_functions", locals: { obj: job_spec } %>
           <span class="hint">
@@ -36,7 +34,6 @@
       <th>Client</th>
       <th>Name</th>
       <th>Enabled</th>
-      <th>Job Template Type</th>
       <th>Job Schedule Group</th>
       <th></th>
     </tr>

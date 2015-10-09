@@ -7,11 +7,7 @@ Rails.application.routes.draw do
   resources :job_specs
   get 'job_specs/:id/run_now', to: 'job_specs#run_now', as: :job_specs_run_now
 
-  resources :tpl_dev_tests, only: [:index, :show, :edit, :update]
-
   resources :job_schedule_groups
-
-  resource :job_scheduler, only: [:show, :new, :create, :destroy]
 
   resources :launched_jobs, only: [:index, :show]
   get 'launched_jobs/:id/job_log', to: 'launched_jobs#show_job_log', as: :job_log
@@ -19,14 +15,6 @@ Rails.application.routes.draw do
   get 'launched_jobs/:id/kill_job', to: 'launched_jobs#kill_job', as: :launched_job_kill_job
 
   resources :clients
-  resources :birst_spaces
-  resources :data_sources
-  resources :data_source_collections
-  resources :birst_process_groups
-  resources :birst_process_group_collections
-  resources :birst_extract_groups
-  resources :birst_extract_group_collections
-  resources :gooddata_projects
   resources :external_credentials
 
   get '/job_spec/show_job_template_form' => 'job_specs#show_job_template_form', as: 'show_job_template_form'

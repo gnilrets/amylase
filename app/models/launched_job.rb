@@ -6,8 +6,8 @@ class LaunchedJob < ActiveRecord::Base
 
   belongs_to :job_spec
 
-  extend Amylase::JobInitializers
-  include Amylase::JobLog
+#  extend Amylase::JobInitializers
+#  include Amylase::JobLog
 
   SUCCESS = "success"
   ERROR   = "error"
@@ -25,7 +25,7 @@ class LaunchedJob < ActiveRecord::Base
 
   class UnableToKillJobNotRunningError < StandardError; end
   class KilledJobError < StandardError; end
-  
+
   validates_inclusion_of :status, in: STATUS_VALUES, allow_nil: false
 
 
@@ -52,7 +52,7 @@ class LaunchedJob < ActiveRecord::Base
   # JobSpec), a new instance of this JobHandler class is created.
   # When Rufus actually schedules the job, it calls the JobHandler#call method
   # of the JobHandler instance.  This instance then creates a new LaunchedJob
-  # 
+  #
   class JobHandler
     extend Forwardable
     def_delegators :@launched_job, :job_spec_id, :job_spec_name
@@ -129,10 +129,10 @@ class LaunchedJob < ActiveRecord::Base
     rescue => err
       job_error_handler(err)
     ensure
-      close_job               
+      close_job
     end
   end
-  
+
 
   private
 
@@ -201,7 +201,7 @@ class LaunchedJob < ActiveRecord::Base
   def set_initial_status
     if LaunchedJob.where(job_spec: self.job_spec, status: LaunchedJob::RUNNING).size > 0
       self.update(status: ERROR, start_time: Time.now)
-      raise "JobSpec already running" 
+      raise "JobSpec already running"
     else
       self.update(status: RUNNING, start_time: Time.now)
     end

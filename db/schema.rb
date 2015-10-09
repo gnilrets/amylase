@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150116232538) do
+ActiveRecord::Schema.define(version: 20151010002531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,8 +61,6 @@ ActiveRecord::Schema.define(version: 20150116232538) do
   create_table "job_specs", force: true do |t|
     t.string   "name"
     t.boolean  "enabled",               default: true
-    t.integer  "job_template_id"
-    t.string   "job_template_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "job_schedule_group_id"
@@ -71,7 +69,6 @@ ActiveRecord::Schema.define(version: 20150116232538) do
 
   add_index "job_specs", ["client_id"], name: "index_job_specs_on_client_id", using: :btree
   add_index "job_specs", ["job_schedule_group_id"], name: "index_job_specs_on_job_schedule_group_id", using: :btree
-  add_index "job_specs", ["job_template_id"], name: "index_job_specs_on_job_template_id", using: :btree
   add_index "job_specs", ["name"], name: "index_job_specs_on_name", unique: true, using: :btree
 
   create_table "launched_jobs", force: true do |t|

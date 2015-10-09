@@ -3,27 +3,18 @@
     <div class="panel panel-default">
       <div class="panel-heading">Job Spec</div>
       <div class="panel-body">
-      
-        <%= simple_form_for @job_spec, 
+
+        <%= simple_form_for @job_spec,
             html: { class: 'form-horizontal' },
             wrapper: :horizontal_form,
-            wrapper_mappings: { 
+            wrapper_mappings: {
               boolean: :horizontal_boolean
             } do |f| %>
 
           <%= f.input :name %>
           <%= f.input :enabled %>
           <%= f.association :client, collection: Client.order(:name), include_blank: 'None' %>
-          <%= f.input :job_template_type, collection: JobSpec::JOB_TEMPLATE_TYPES, :include_blank => false, :input_html => { :id => 'job_template_type_selector' } %>
           <%= f.association :job_schedule_group %>
-
-          <div id="show_job_template_form" style="display: none">
-            <%= link_to "get job template form", show_job_template_form_path, :remote => true %>
-          </div>
-
-          <div id="job_template_form">
-            <%= render partial: 'job_template', locals: { f: f, disabled: disabled } %>
-          </div>
 
           <%= f.button :submit unless disabled%>
         <% end %>

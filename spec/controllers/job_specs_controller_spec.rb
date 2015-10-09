@@ -2,8 +2,17 @@ require 'rails_helper'
 
 RSpec.describe JobSpecsController, :type => :controller do
 
-  let(:valid_attributes) { ControllerMacros.attributes_with_foreign_keys(:job_spec, :schedule_in_1s) }
-  let(:invalid_attributes) { valid_attributes }
+  # This should return the minimal set of attributes required to create a valid
+  # Client. As you add validations to Client, be sure to
+  # adjust the attributes here as well.
+  let(:valid_attributes) {
+    FactoryGirl.build(:job_spec, :with_schedule, :with_client).attributes
+  }
+
+  let(:invalid_attributes) {
+    # The only invalid attributes at this time is a duplicate name
+    FactoryGirl.create(:job_spec, :with_schedule, :with_client).attributes
+  }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -73,11 +82,6 @@ RSpec.describe JobSpecsController, :type => :controller do
         expect(response).to redirect_to JobSpec.last
       end
 
-      it "is associated with a job_template" do
-        post :create, { job_spec: valid_attributes }, valid_session
-        expect(assigns(:job_spec).job_template).to be_a(TplDevTest)
-      end
-
       it "is associated with a job_schedule" do
         post :create, { job_spec: valid_attributes }, valid_session
         expect(assigns(:job_spec).job_schedule_group).to be_a(JobScheduleGroup)
@@ -86,13 +90,20 @@ RSpec.describe JobSpecsController, :type => :controller do
     end
 
     context "with invalid params" do
-      # The only invalid attribute at this point is a duplicate JobSpec
-      before { JobSpec.create! valid_attributes }
+      before do
+        # Only invalid attributes include sharing an existing name
+        invalid_attributes
+      end
 
       it "does not save the new JobSpec" do
         expect {
           post :create, job_spec: invalid_attributes
         }.not_to change(JobSpec, :count)
+      end
+
+      it "assigns a newly created but unsaved job_spec as @job_spec" do
+        post :create, {:job_spec => invalid_attributes}, valid_session
+        expect(assigns(:job_spec)).to be_a_new(JobSpec)
       end
 
       it "re-renders the new method" do
@@ -128,37 +139,6 @@ RSpec.describe JobSpecsController, :type => :controller do
       end
     end
 
-    context 'when the job scheduler is running' do
-      before do
-        @job_spec = FactoryGirl.create(:job_spec, :schedule_in_1s, enabled: true)
-        @new_job_schedule = FactoryGirl.create(:job_schedule_group, :schedule_maintenance)
-        JobScheduler.new.start_scheduler
-      end
-
-      after { JobScheduler.find.destroy }
-
-      it 'updates the scheduler' do
-        new_attributes = @job_spec.attributes.merge(:job_schedule_group_id => @new_job_schedule.id)
-
-        expect {
-          put :update, {:id => @job_spec.to_param, :job_spec => new_attributes}, valid_session
-          @job_spec.reload
-        }.to change {
-          JobScheduler.find.jobs.select { |j| j[:job_spec_name] == @job_spec.name }.size
-        }.from(1).to(2)
-      end
-
-      it 'deletes the job from the scheduler when it is disabled' do
-        new_attributes = @job_spec.attributes.merge(enabled: false)
-        expect {
-          put :update, {:id => @job_spec.to_param, :job_spec => new_attributes}, valid_session
-          @job_spec.reload
-        }.to change {
-          JobScheduler.find.jobs.select { |j| j[:job_spec_name] == @job_spec.name }.size
-        }.from(1).to(0)
-      end
-    end
-
     describe "with invalid params" do
       # The only invalid attribute at this point is a duplicate JobSpec
       before { JobSpec.create! valid_attributes.merge('name' => 'existing_job_spec') }
@@ -191,65 +171,8 @@ RSpec.describe JobSpecsController, :type => :controller do
       delete :destroy, {:id => job_spec.to_param}, valid_session
       expect(response).to redirect_to(job_specs_url)
     end
-
-    context 'when the job scheduler is running' do
-      before do
-        @job_spec = FactoryGirl.create(:job_spec, :schedule_in_1s, enabled: true)
-        JobScheduler.new.start_scheduler
-      end
-
-      after { JobScheduler.find.destroy }
-
-      it 'unschedules the destroyed job spec' do
-        expect {
-          delete :destroy, {:id => @job_spec.to_param}, valid_session
-        }.to change {
-          JobScheduler.find.jobs.select { |j| j[:job_spec_name] == @job_spec.name }.size
-        }.from(1).to(0)
-      end
-    end
   end
 
-  describe 'GET run_now' do
-    before do
-      @job_spec = JobSpec.create! valid_attributes
-      @request.env['HTTP_REFERER'] = "/job_specs/#{@job_spec.id}"
-    end
-
-    context 'scheduler is not running' do
-      it 'redirects back to the show template' do
-        get :run_now, { id: @job_spec.id }, valid_session
-        expect(response).to redirect_to @job_spec
-      end
-    end
-
-    context 'scheduler is running' do
-      before do
-        @job_scheduler = JobScheduler.new
-        @job_scheduler.start_scheduler
-      end
-      after { @job_scheduler.destroy }
-
-      it 'redirects to the launched_jobs index' do
-        get :run_now, { id: @job_spec.id }, valid_session
-        expect(response).to redirect_to launched_jobs_path
-      end
-
-      it 'launches the job now' do
-        expect {
-          get :run_now, { id: @job_spec.id }, valid_session
-        }.to change {
-          @job_scheduler.jobs.size
-        }.by(1)
-      end
-
-      context 'JobSpec already running' do
-        it 'redirects back to the show template' do
-          FactoryGirl.create(:launched_job, job_spec: @job_spec, status: LaunchedJob::RUNNING)
-          get :run_now, { id: @job_spec.id }, valid_session
-          expect(response).to redirect_to @job_spec
-        end
-      end
-    end
+  describe 'GET run_now', skip: "TODO" do
   end
 end
