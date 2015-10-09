@@ -1,65 +1,13 @@
 # Envcrypt - DO NOT SET THE PRODUCTION KEY HERE, KEEP IT AS AN ENVIRONMENT VARIABLE
 envcrypt_key: <%= ENV['ENVCRYPT_KEY'] %>
 
-# Birst_Command default session settings
-birst_soap:
-  session:
-    wsdl:           "<%= ENV['BIRST_URL'] %>/CommandWebService.asmx?WSDL"
-    endpoint:       "<%= ENV['BIRST_URL'] %>/CommandWebService.asmx"
-    username:       <%= ENV['BIRST_USER'] %>
-    password:       <%= ENV['BIRST_PWD'] %>
-    soap_logger:    Rails.logger
-    soap_log:       true
-    soap_log_level: debug
-
-  wait:
-    # Job wait timeout
-    timeout: 12h
-
-    # Job wait check status frequency
-    every: 60s
-
-    # Job wait rufus frequency (needed mostly for testing)
-    rufus_freq: 0.3
-
-    # Maximum number of times to retry BWS job monitoring when encountering an unexpected error
-    max_retry: 5
-
-  # Maximum size of chunk (in kB) to send to Birst during data upload
-  data_chunk_size: 1000
-
 # AWS configuration settings
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
   secret_key:    <%= ENV['AWS_SECRET_KEY'] %>
   region:        us-west-2
 
-logging:
-  save_logs_to_s3: true
-  s3_bucket:       <%= ENV['AMYLASE_LOGGING_S3_BUCKET'] %>
-  s3_root_folder:  <%= Rails.env %>
-
-data_sources:
-  # Maximum chunk size (in kB) to return when chunking data
-  max_chunk_size: 1000
-
-  redshift_s3:
-    s3_staging_path: <%= ENV['AMYLASE_REDSHIFT_S3_STAGING_PATH'] %>
-    host: <%= ENV['AMYLASE_REDSHIFT_S3_HOST'] %>
-    dbname: <%= ENV['AMYLASE_REDSHIFT_S3_DBNAME'] %>
-    port: <%= ENV['AMYLASE_REDSHIFT_S3_PORT'] %>
-    user: <%= ENV['AMYLASE_REDSHIFT_S3_USER'] %>
-    password: <%= ENV['AMYLASE_REDSHIFT_S3_PASSWORD'] %>
-    sslmode: <%= ENV['AMYLASE_REDSHIFT_S3_SSLMODE'] %>
-
-
 # Some parameters only needed during test (set these values in settings.local.yml, the values given here are examples only)
 test:
   # Location of an s3 file to test getting data from s3
   s3_file: s3://amylase/test/random.txt
-
-  # Query to run against Redshift to test connection (should be relatively small, but contain detailed columns and multiple rows)
-  redshift_query: select * from @redshift_schema.sales limit 1000
-
-  # Redshift schema to use with the query
-  redshift_schema: mysalesschema

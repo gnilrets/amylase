@@ -16,74 +16,6 @@ ActiveRecord::Schema.define(version: 20150116232538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "birst_extract_group_collection_associations", force: true do |t|
-    t.integer  "birst_extract_group_id"
-    t.integer  "birst_extract_group_collection_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "birst_extract_group_collection_associations", ["birst_extract_group_collection_id"], name: "idx_birst_extract_group_collection_associations_collection_id", using: :btree
-  add_index "birst_extract_group_collection_associations", ["birst_extract_group_id", "birst_extract_group_collection_id"], name: "idx_birst_extract_group_collection_associations", unique: true, using: :btree
-
-  create_table "birst_extract_group_collections", force: true do |t|
-    t.text     "name",        null: false
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "birst_extract_group_collections", ["name"], name: "index_birst_extract_group_collections_on_name", unique: true, using: :btree
-
-  create_table "birst_extract_groups", force: true do |t|
-    t.text     "name",        null: false
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "birst_extract_groups", ["name"], name: "index_birst_extract_groups_on_name", unique: true, using: :btree
-
-  create_table "birst_process_group_collection_associations", force: true do |t|
-    t.integer  "birst_process_group_id"
-    t.integer  "birst_process_group_collection_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "birst_process_group_collection_associations", ["birst_process_group_collection_id"], name: "idx_birst_process_group_collection_associations_collection_id", using: :btree
-  add_index "birst_process_group_collection_associations", ["birst_process_group_id", "birst_process_group_collection_id"], name: "idx_birst_process_group_collection_associations", unique: true, using: :btree
-
-  create_table "birst_process_group_collections", force: true do |t|
-    t.text     "name",        null: false
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "birst_process_group_collections", ["name"], name: "index_birst_process_group_collections_on_name", unique: true, using: :btree
-
-  create_table "birst_process_groups", force: true do |t|
-    t.text     "name",        null: false
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "birst_process_groups", ["name"], name: "index_birst_process_groups_on_name", unique: true, using: :btree
-
-  create_table "birst_spaces", force: true do |t|
-    t.text     "name",                  null: false
-    t.integer  "client_id"
-    t.text     "space_type"
-    t.string   "space_uuid", limit: 36, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "birst_spaces", ["client_id"], name: "index_birst_spaces_on_client_id", using: :btree
-  add_index "birst_spaces", ["name"], name: "index_birst_spaces_on_name", unique: true, using: :btree
-
   create_table "clients", force: true do |t|
     t.text     "name",                null: false
     t.text     "redshift_schema"
@@ -93,37 +25,6 @@ ActiveRecord::Schema.define(version: 20150116232538) do
   end
 
   add_index "clients", ["name"], name: "index_clients_on_name", unique: true, using: :btree
-
-  create_table "data_source_collection_associations", force: true do |t|
-    t.integer  "data_source_id"
-    t.integer  "data_source_collection_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "data_source_collection_associations", ["data_source_collection_id"], name: "idx_data_source_collections_association_data_source_collection", using: :btree
-  add_index "data_source_collection_associations", ["data_source_id", "data_source_collection_id"], name: "idx_data_source_collections_associations", unique: true, using: :btree
-
-  create_table "data_source_collections", force: true do |t|
-    t.text     "name",       null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "data_source_collections", ["name"], name: "index_data_source_collections_on_name", unique: true, using: :btree
-
-  create_table "data_sources", force: true do |t|
-    t.text     "name",             null: false
-    t.text     "birst_filename"
-    t.text     "data_source_type", null: false
-    t.text     "redshift_sql"
-    t.text     "s3_path"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "custom_header"
-  end
-
-  add_index "data_sources", ["name"], name: "index_data_sources_on_name", unique: true, using: :btree
 
   create_table "external_credentials", force: true do |t|
     t.text     "name",        null: false
@@ -135,18 +36,6 @@ ActiveRecord::Schema.define(version: 20150116232538) do
   end
 
   add_index "external_credentials", ["name"], name: "index_external_credentials_on_name", unique: true, using: :btree
-
-  create_table "gooddata_projects", force: true do |t|
-    t.text     "name",        null: false
-    t.text     "description"
-    t.text     "project_uid"
-    t.integer  "client_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "gooddata_projects", ["client_id"], name: "index_gooddata_projects_on_client_id", using: :btree
-  add_index "gooddata_projects", ["name"], name: "index_gooddata_projects_on_name", unique: true, using: :btree
 
   create_table "job_schedule_groups", force: true do |t|
     t.string   "name",       null: false
@@ -199,69 +88,5 @@ ActiveRecord::Schema.define(version: 20150116232538) do
   end
 
   add_index "launched_jobs", ["job_spec_id"], name: "index_launched_jobs_on_job_spec_id", using: :btree
-
-  create_table "tpl_birst_duplicate_spaces", force: true do |t|
-    t.string   "from_space_id_str", limit: 36
-    t.string   "to_space_name"
-    t.boolean  "with_membership"
-    t.boolean  "with_data"
-    t.boolean  "with_datastore"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "tpl_birst_soap_generic_commands", force: true do |t|
-    t.string   "command",       limit: 80
-    t.string   "argument_json", limit: 1024
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "tpl_birst_staged_refreshes", force: true do |t|
-    t.integer  "data_source_collection_id"
-    t.integer  "birst_process_group_collection_id"
-    t.integer  "production_space_id"
-    t.integer  "staging_space_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "birst_extract_group_collection_id"
-  end
-
-  add_index "tpl_birst_staged_refreshes", ["birst_extract_group_collection_id"], name: "idx_tpl_staged_refresh_extract_group_collection", using: :btree
-  add_index "tpl_birst_staged_refreshes", ["birst_process_group_collection_id"], name: "idx_tpl_staged_refresh_process_group_collection", using: :btree
-  add_index "tpl_birst_staged_refreshes", ["data_source_collection_id"], name: "index_tpl_birst_staged_refreshes_on_data_source_collection_id", using: :btree
-  add_index "tpl_birst_staged_refreshes", ["production_space_id"], name: "index_tpl_birst_staged_refreshes_on_production_space_id", using: :btree
-  add_index "tpl_birst_staged_refreshes", ["staging_space_id"], name: "index_tpl_birst_staged_refreshes_on_staging_space_id", using: :btree
-
-  create_table "tpl_dev_tests", force: true do |t|
-    t.text     "argument"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "sleep_seconds", default: 0
-  end
-
-  create_table "tpl_gooddata_extract_reports", force: true do |t|
-    t.text     "name",                    null: false
-    t.integer  "tpl_gooddata_extract_id", null: false
-    t.text     "report_oid",              null: false
-    t.text     "destination_file_name",   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "export_method",           null: false
-  end
-
-  add_index "tpl_gooddata_extract_reports", ["tpl_gooddata_extract_id"], name: "index_tpl_gooddata_extract_reports_on_tpl_gooddata_extract_id", using: :btree
-
-  create_table "tpl_gooddata_extracts", force: true do |t|
-    t.integer  "gooddata_project_id"
-    t.integer  "destination_credential_id"
-    t.text     "destination_path"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "append_timestamp",          default: true
-  end
-
-  add_index "tpl_gooddata_extracts", ["destination_credential_id"], name: "index_tpl_gooddata_extracts_on_destination_credential_id", using: :btree
-  add_index "tpl_gooddata_extracts", ["gooddata_project_id"], name: "index_tpl_gooddata_extracts_on_gooddata_project_id", using: :btree
 
 end

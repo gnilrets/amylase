@@ -1,15 +1,15 @@
 default: &default
   adapter: postgresql
   host: localhost
-  username: gnilrets
+  username: <%= `whoami` %>
 
 development:
   <<: *default
-  database: amylase-dev
+  database: itk-etl-manager-dev
 
 test:
   <<: *default
-  database: amylase-test
+  database: itk-etl-manager-teset
 
 production:
   <<: *default
@@ -19,4 +19,3 @@ production:
   password: <%= ENV['RDS_PASSWORD'] %>
   host: <%= ENV['RDS_HOSTNAME'] %>
   port: <%= ENV['RDS_PORT'] %>
-

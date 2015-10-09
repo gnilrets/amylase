@@ -60,28 +60,14 @@ gem 'rails_config', '~> 0.4'
 # Envcrypt for password decryption
 gem 'envcrypt', '~> 0.1'
 
-# Execute SOAP commands
-gem 'savon', '~> 2.5'
-gem 'httpclient', '~> 2.3'
-
 # Logging utility
 gem 'logging', '~> 1.8'
-
-# AWS Utilities
-gem 'aws-sdk-v1', '~> 1'
 
 # Save blanks as nil
 gem 'nilify_blanks', '~> 1.1'
 
 # REST client
 gem 'rest_client', '~> 1.8'
-
-# Zip file support
-gem 'rubyzip', '~> 1.1'
-
-group :development do
-  gem 'rails-erd'
-end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
@@ -117,4 +103,3 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
