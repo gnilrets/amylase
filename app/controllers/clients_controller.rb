@@ -41,7 +41,7 @@ class ClientsController < ApplicationController
         format.html { redirect_to @client }
         format.json { render json: @client, status: :created }
       else
-        flash[:danger] = "Error! Client not created: #{@client.errors.full_messages}"        
+        flash[:danger] = "Error! Client not created: #{@client.errors.full_messages}"
         format.html { render action: 'new' }
         format.json { render json: @client.errors, status: :unprocessable_entity }
       end
@@ -83,6 +83,6 @@ class ClientsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def client_params
-      params.require(:client).permit(:name, :redshift_schema, :salesforce_username)
+      params.require(:client).permit(:name)
     end
 end

@@ -7,7 +7,6 @@ feature "User creates a Client" do
   before do
     visit new_client_path
     fill_in 'Name', with: 'some_client'
-    fill_in 'Redshift schema', with: 'some_schema'
 
     click_button 'Create Client'
   end
@@ -19,7 +18,6 @@ feature "User creates a Client" do
   scenario 'user attempts to create a duplicate client' do
     visit new_client_path
     fill_in 'Name', with: 'some_client'
-    fill_in 'Redshift schema', with: 'some_schema'
 
     click_button 'Create Client'
 

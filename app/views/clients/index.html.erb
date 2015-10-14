@@ -5,8 +5,6 @@
     <tr>
       <th>id</th>
       <th>Name</th>
-      <th>Salesforce username</th>
-      <th>Redshift schema</th>
       <th></th>
     </tr>
   </thead>
@@ -16,8 +14,6 @@
       <tr>
         <td><%= client.id %></td>
         <td><%= client.name %></td>
-        <td><%= client.salesforce_username %></td>
-        <td><%= client.redshift_schema %></td>
         <td class="text-right"> <%= render partial: "shared/row_functions", locals: { obj: client } %></td>
       </tr>
     <% end %>
@@ -27,8 +23,6 @@
     <tr>
       <th>id</th>
       <th>Name</th>
-      <th>Salesforce username</th>
-      <th>Redshift schema</th>
       <th></th>
     </tr>
   </tfoot>

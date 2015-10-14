@@ -11,15 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151010002531) do
+ActiveRecord::Schema.define(version: 20151014000413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "clients", force: true do |t|
-    t.text     "name",                null: false
-    t.text     "redshift_schema"
-    t.text     "salesforce_username"
+    t.text     "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

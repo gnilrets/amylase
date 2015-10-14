@@ -104,14 +104,14 @@ RSpec.describe ClientsController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        valid_attributes.merge('redshift_schema' => 'something__else')
+        valid_attributes.merge('name' => 'something__else')
       }
 
       it "updates the requested client" do
         client = Client.create! valid_attributes
         put :update, {:id => client.to_param, :client => new_attributes}, valid_session
         client.reload
-        expect(client.redshift_schema).to eq new_attributes['redshift_schema']
+        expect(client.name).to eq new_attributes['name']
       end
 
       it "assigns the requested client as @client" do
